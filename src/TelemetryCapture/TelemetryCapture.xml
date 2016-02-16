@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="TelemetryCapture.widget.TelemetryCapture" needsEntityContext="false" xmlns="http://www.mendix.com/widget/1.0/">
+    <name>TelemetryCapture</name>
+    <description>The description of this widget.</description>
+
+    <icon />
+
+    <properties>
+		<property key="mfToExecute" type="microflow" required="true" entityProperty="mfEntity" defaultValue="">
+            <caption>Microflow</caption>
+            <category>Behavior</category>
+            <description>The microflow to execute on click.</description>
+            <returnType type="Void" />
+        </property>
+		<property key="mfEntity" type="entity" required="true">
+			<caption>Entity to pass to the microflow</caption>
+            <category>Behavior</category>
+			<description>The entity passed to the microflow.</description>
+		</property>
+		<property key="eventAttribute" type="attribute" required="false" entityProperty="mfEntity">
+			<caption>Event attribute</caption>
+			<category>Behavior</category>
+			<description></description>
+			<attributeTypes>
+				<attributeType name="String" />
+			</attributeTypes>
+		</property>
+		
+		<!-- This should eventually be in a list with other attributes -->
+		<property key="jSelector" type="string" required="true" defaultValue="">
+            <caption>Jquery selector</caption>
+            <category>Behavior</category>
+            <description>query selector to find the target of our event.</description>
+        </property>
+		<property key="eventName" type="string" required="true" defaultValue="">
+            <caption>Event name</caption>
+            <category>Behavior</category>
+            <description>The name of the telemetry event to capture.</description>
+        </property>
+    </properties>
+</widget>
+
