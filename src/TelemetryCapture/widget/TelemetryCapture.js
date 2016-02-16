@@ -34,7 +34,7 @@ define([
     "dojo/_base/event",
 
     "TelemetryCapture/lib/jquery-1.11.2"
-], function(declare, _WidgetBase, dom, dojoDom, dojoProp, dojoGeometry, dojoClass, dojoStyle, dojoConstruct, dojoArray, dojoLang, dojoText, dojoHtml, dojoEvent, _jQuery) {
+], function (declare, _WidgetBase, dom, dojoDom, dojoProp, dojoGeometry, dojoClass, dojoStyle, dojoConstruct, dojoArray, dojoLang, dojoText, dojoHtml, dojoEvent, _jQuery) {
     "use strict";
 
     var $ = _jQuery.noConflict(true);
@@ -72,35 +72,39 @@ define([
 		_buttonClicked: function() {
 			// If a microflow has been set execute the microflow on a click.
 			if (this.mfToExecute !== "") {
-				var myEntity = mx.data.create({
+				mx.data.create({
 					entity: this.mfEntity,
-					callback: function(obj) {
+					callback: dojoLang.hitch(this, function(obj) {
 						console.log("Object created on server");
-					},
+						this._callMicroflow(obj);
+					}),
 					error: function(e) {
 						console.log("an error occured: " + e);
 					}
 				});
-				
-				//Code here for setting attributes!
-				
-				mx.data.action({
-					params: {
-						applyto: "selection",
-						actionname: this.mfToExecute,
-						guids: [ myEntity.getGuid() ]
-					},
-					store: {
-						caller: this.mxform
-					},
-					callback: function(obj) {
-						//TODO what to do when all is ok!
-					},
-					error: dojoLang.hitch(this, function(error) {
-						console.log(this.id + ": An error occurred while executing microflow: " + error.description);
-					})
-				}, this);
-			}	
+			}
+		},
+		
+		_callMicroflow: function (obj) {
+			//Code here for setting attributes!
+			obj.setAttribute(this.eventAttribute,this.eventName);
+
+			mx.data.action({
+				params: {
+					applyto: "selection",
+					actionname: this.mfToExecute,
+					guids: [ obj.getGuid() ]
+				},
+				store: {
+					caller: this.mxform
+				},
+				callback: function(obj) {
+					//TODO what to do when all is ok!
+				},
+				error: dojoLang.hitch(this, function(error) {
+					console.log(this.id + ": An error occurred while executing microflow: " + error.description);
+				})
+			}, this);
 		},
 		
         // mxui.widget._WidgetBase.update is called when context is changed or initialized. Implement to re-render and / or fetch data.
