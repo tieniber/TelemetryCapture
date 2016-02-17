@@ -3,7 +3,7 @@
     TelemetryCapture
     ========================
 
-    @file      : TelemetryCapture.js
+    @file      : TelemetryCaptureContext.js
     @version   : 
     @author    : 
     @date      : Tue, 16 Feb 2016 19:16:37 GMT
@@ -41,18 +41,23 @@ define([
     var $ = _jQuery.noConflict(true);
 
     // Declare widget's prototype.
-    return declare("TelemetryCapture.widget.TelemetryCapture", [ _WidgetBase ], {
+    return declare("TelemetryCapture.widget.TelemetryCaptureContext", [ _WidgetBase ], {
 
         // Parameters configured in the Modeler.
         mfToExecute: "",
         mfEntity: "",
         eventNameAttribute: "",
         eventFormAttribute: "",
+        contextEntity: "",
 		telemetryEvents: "",
 
         // Internal variables. Non-primitives created in the prototype are shared between all widget instances.
         _handles: null,
         _alertDiv: null,
+        _context: null,
+        
+        //_contextEntityName: null,
+        _contextEntityRef: null,
 
         // dojo.declare.constructor is called to construct the widget instance. Implement to initialize non-primitive properties.
         constructor: function() {
@@ -65,8 +70,9 @@ define([
         // dijit._WidgetBase.postCreate is called after constructing the widget. Implement to do extra setup work.
         postCreate: function() {
             logger.debug(this.id + ".postCreate");
-			
-            ready(dojoLang.hitch(this, this._setupListeners));
+            
+            this._contextEntityRef  = this.contextEntity.split('/')[0];
+            //this._contextEntityName = this.contextEntity.split('/')[1];
         },
         
         _setupListeners: function () {
@@ -101,7 +107,9 @@ define([
 			//Code here for setting attributes!
 			mxObj.set(this.eventNameAttribute,event.eventName);
             mxObj.set(this.eventFormAttribute,this.mxform.title);
-
+            
+            mxObj.addReference(this._contextEntityRef, this._context.getGuid());
+            
 			mx.data.action({
 				params: {
 					applyto: "selection",
@@ -123,7 +131,10 @@ define([
         // mxui.widget._WidgetBase.update is called when context is changed or initialized. Implement to re-render and / or fetch data.
         update: function(obj, callback) {
             logger.debug(this.id + ".update");
-
+            this._context = obj;
+            
+            ready(dojoLang.hitch(this, this._setupListeners));
+            
             callback();
         },
 
@@ -150,6 +161,6 @@ define([
     });
 });
 
-require(["TelemetryCapture/widget/TelemetryCapture"], function() {
+require(["TelemetryCapture/widget/TelemetryCaptureContext"], function() {
     "use strict";
 });

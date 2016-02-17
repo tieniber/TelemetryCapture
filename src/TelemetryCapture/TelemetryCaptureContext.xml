@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<widget id="TelemetryCapture.widget.TelemetryCapture" needsEntityContext="false" xmlns="http://www.mendix.com/widget/1.0/">
-    <name>TelemetryCapture</name>
+<widget id="TelemetryCapture.widget.TelemetryCaptureContext" needsEntityContext="true" xmlns="http://www.mendix.com/widget/1.0/">
+    <name>TelemetryCaptureContext</name>
     <description>The description of this widget.</description>
 
     <icon />
@@ -32,6 +32,11 @@
 			<attributeTypes>
 				<attributeType name="String" />
 			</attributeTypes>
+		</property>
+        <property key="contextEntity" type="entity" required="false" isPath="yes" pathType="reference" entityProperty="mfEntity">
+			<caption>Context Entity</caption>
+			<category>Behavior</category>
+			<description>The entity of the dataview object.</description>
 		</property>
         <!-- This is the list -->
         <property key="telemetryEvents" type="object" isList="true" required="false">
