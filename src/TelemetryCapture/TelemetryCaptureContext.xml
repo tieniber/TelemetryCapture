@@ -17,7 +17,7 @@
             <category>Behavior</category>
 			<description>The entity passed to the microflow.</description>
 		</property>
-		<property key="eventNameAttribute" type="attribute" required="false" entityProperty="mfEntity">
+		<property key="eventNameAttribute" type="attribute" required="true" entityProperty="mfEntity">
 			<caption>Event name attribute</caption>
 			<category>Behavior</category>
 			<description></description>
@@ -25,7 +25,7 @@
 				<attributeType name="String" />
 			</attributeTypes>
 		</property>
-        <property key="eventFormAttribute" type="attribute" required="false" entityProperty="mfEntity">
+        <property key="eventFormAttribute" type="attribute" required="true" entityProperty="mfEntity">
 			<caption>Event form attribute</caption>
 			<category>Behavior</category>
 			<description></description>
@@ -33,10 +33,37 @@
 				<attributeType name="String" />
 			</attributeTypes>
 		</property>
-        <property key="contextEntity" type="entity" required="false" isPath="yes" pathType="reference" entityProperty="mfEntity">
-			<caption>Context Entity</caption>
+		<property key="eventContextID" type="attribute" required="true" entityProperty="mfEntity">
+			<caption>Event context ID attribute</caption>
 			<category>Behavior</category>
+			<description></description>
+			<attributeTypes>
+				<attributeType name="String" />
+			</attributeTypes>
+		</property>
+		<property key="eventContextName" type="attribute" required="true" entityProperty="mfEntity">
+			<caption>Event context name attribute</caption>
+			<category>Behavior</category>
+			<description></description>
+			<attributeTypes>
+				<attributeType name="String" />
+			</attributeTypes>
+		</property>
+        <property key="contextEntity" type="entity" required="true" isPath="yes" pathType="reference" entityProperty="mfEntity">
+			<caption>Context Entity</caption>
+			<category>Context</category>
 			<description>The entity of the dataview object.</description>
+		</property>
+		<property key="contextID" type="attribute" required="true" entityProperty="contextEntity">
+			<caption>Context ID attribute</caption>
+			<category>Context</category>
+			<description></description>
+			<attributeTypes>
+				<attributeType name="String" />
+				<attributeType name="AutoNumber" />
+				<attributeType name="Integer" />
+				<attributeType name="Long" />
+			</attributeTypes>
 		</property>
         <!-- This is the list -->
         <property key="telemetryEvents" type="object" isList="true" required="false">

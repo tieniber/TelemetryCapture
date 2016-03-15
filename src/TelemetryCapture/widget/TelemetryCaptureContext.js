@@ -48,7 +48,10 @@ define([
 		mfEntity: "",
 		eventNameAttribute: "",
 		eventFormAttribute: "",
+		eventContextID: "",
+		eventContextName: "",
 		contextEntity: "",
+		contextID: "",
 		telemetryEvents: "",
 
 		// Internal variables. Non-primitives created in the prototype are shared between all widget instances.
@@ -108,6 +111,8 @@ define([
 			//Code here for setting attributes!
 			mxObj.set(this.eventNameAttribute, event.eventName);
 			mxObj.set(this.eventFormAttribute, this.mxform.title);
+			mxObj.set(this.eventContextID, this._context.get(this.contextID));
+			mxObj.set(this.eventContextName, this._context.metaData.getEntity());
 
 			mxObj.addReference(this._contextEntityRef, this._context.getGuid());
 
