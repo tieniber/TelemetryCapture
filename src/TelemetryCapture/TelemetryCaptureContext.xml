@@ -49,6 +49,33 @@
 				<attributeType name="String" />
 			</attributeTypes>
 		</property>
+		<!-- custom options for data grid export -->
+		<property key="eventGridXPathAttribute" type="attribute" required="false" entityProperty="mfEntity">
+			<caption>Event grid XPath attribute</caption>
+			<category>Behavior</category>
+			<description>If the event is a button click on a data grid, this attribute will be populated with the grid's current XPath.</description>
+			<attributeTypes>
+				<attributeType name="String" />
+			</attributeTypes>
+		</property>
+		<property key="eventGridSortAttribute" type="attribute" required="false" entityProperty="mfEntity">
+			<caption>Event grid sort attribute</caption>
+			<category>Behavior</category>
+			<description>If the event is a button click on a data grid, this attribute will be populated with the grid's current sort settings.</description>
+			<attributeTypes>
+				<attributeType name="String" />
+			</attributeTypes>
+		</property>
+		<property key="eventGridSchemaIdAttribute" type="attribute" required="false" entityProperty="mfEntity">
+			<caption>Event grid schema ID attribute</caption>
+			<category>Behavior</category>
+			<description>If the event is a button click on a data grid, this attribute will be populated with the grid's current schema ID.</description>
+			<attributeTypes>
+				<attributeType name="String" />
+			</attributeTypes>
+		</property>
+		<!-- end custom options for data grid export -->
+
         <property key="contextEntity" type="entity" required="true" isPath="yes" pathType="reference" entityProperty="mfEntity">
 			<caption>Context Entity</caption>
 			<category>Context</category>
@@ -92,4 +119,3 @@
         </property>
     </properties>
 </widget>
-
