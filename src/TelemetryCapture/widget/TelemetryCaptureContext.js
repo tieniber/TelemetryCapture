@@ -114,10 +114,6 @@ define([
 			//Code here for setting attributes!
 			mxObj.set(this.eventNameAttribute, event.eventName);
 			mxObj.set(this.eventFormAttribute, this.mxform.title);
-			mxObj.set(this.eventContextID, this._context.get(this.contextID));
-			mxObj.set(this.eventContextName, this._context.metaData.getEntity());
-
-			mxObj.addReference(this._contextEntityRef, this._context.getGuid());
 
 			//Special attriute setting for a button clicked from a datagrid
 			if(e && e.target && e.target.parentNode && e.target.parentNode.parentNode && e.target.parentNode.parentNode.parentNode) {
@@ -136,7 +132,14 @@ define([
 					}
 				}
 			}
+            
+            // Context specific properties 
+			mxObj.set(this.eventContextID, this._context.get(this.contextID));
+			mxObj.set(this.eventContextName, this._context.metaData.getEntity());
 
+			mxObj.addReference(this._contextEntityRef, this._context.getGuid());
+
+            
 			mx.data.action({
 				params: {
 					applyto: "selection",
