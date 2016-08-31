@@ -72,24 +72,27 @@ define([
 
 		_setupListeners: function () {
 			for (var i = 0; i < this.telemetryEvents.length; i++) {
-				var event = this.telemetryEvents[i];
+				var telemEvent = this.telemetryEvents[i];
 
-				if (event.checkParent) {
-					$(this.domNode).parent().find(event.clickSelector).off("click." + this.id).on("click." + this.id, dojoLang.hitch(this, this._buttonClicked, event));
+				if (telemEvent.checkParent) {
+					$(this.domNode).parent().find(telemEvent.clickSelector).off("click." + this.id).on("click." + this.id, dojoLang.hitch(this, this._buttonClicked, telemEvent));
 				} else {
-					$(event.clickSelector).off("click." + this.id).on("click." + this.id, dojoLang.hitch(this, this._buttonClicked, event));
+					$(telemEvent.clickSelector).off("click." + this.id).on("click." + this.id, function(e) {
+
+						dojoLang.hitch(this, this._buttonClicked, telemEvent, e);
+					});
 				}
 			}
 		},
 
-		_buttonClicked: function (event) {
+		_buttonClicked: function (event, e) {
 			// If a microflow has been set execute the microflow on a click.
 			if (this.mfToExecute !== "") {
 				mx.data.create({
 					entity: this.mfEntity,
 					callback: dojoLang.hitch(this, function (event, obj) {
 						console.log("Object created on server");
-						this._callMicroflow(obj, event);
+						this._callMicroflow(obj, event, e);
 					}, event),
 					error: function (e) {
 						console.log("an error occured: " + e);
@@ -98,11 +101,30 @@ define([
 			}
 		},
 
-		_callMicroflow: function (mxObj, event) {
+		_callMicroflow: function (mxObj, event, e) {
 			//Code here for setting attributes!
 			mxObj.set(this.eventNameAttribute, event.eventName);
 			mxObj.set(this.eventFormAttribute, this.mxform.title);
+            
+			//Special attriute setting for a button clicked from a datagrid
+			if(e && e.target && e.target.parentNode && e.target.parentNode.parentNode && e.target.parentNode.parentNode.parentNode) {
+				var theGrid = e.target.parentNode.parentNode.parentNode;
+				if (theGrid.classList.contains("mx-datagrid")) {
+					var gridWidgetData = dijit.registry.byNode(theGrid)._dataSource;
 
+					if (this.eventGridXPathAttribute) {
+						mxObj.set(this.eventGridXPathAttribute, gridWidgetData.getCurrentXPath());
+					}
+					if (this.eventGridSortAttribute) {
+						mxObj.set(this.eventGridSortAttribute, gridWidgetData.getSortSettings().toString());
+					}
+					if (this.eventGridSchemaIdAttribute) {
+						mxObj.set(this.eventGridSchemaIdAttribute, gridWidgetData._schemaId);
+					}
+				}
+			}
+            
+            
 			mx.data.action({
 				params: {
 					applyto: "selection",
